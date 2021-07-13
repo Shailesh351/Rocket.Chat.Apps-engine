@@ -28,4 +28,8 @@ export class TestsMessageBridge extends MessageBridge {
     public typing(options: ITypingDescriptor): Promise<void> {
         throw new Error('Method not implemented.');
     }
+
+    public stopTyping(options: ITypingDescriptor): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
 }

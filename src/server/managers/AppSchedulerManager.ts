@@ -102,4 +102,8 @@ export class AppSchedulerManager {
     public async cleanUp(appId: string): Promise<void> {
         (this.bridge as IInternalSchedulerBridge & SchedulerBridge).cancelAllJobs(appId);
     }
+
+    public async cancelJobByDataQuery(data: object, appId: string): Promise<void> {
+        this.bridge.cancelJobByDataQuery(data, appId);
+    }
 }
