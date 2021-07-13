@@ -39,11 +39,18 @@ export abstract class SchedulerBridge extends BaseBridge {
         }
     }
 
+    public async doCancelJobByDataQuery(data: object, appId: string): Promise<void> {
+        if (this.hasDefaultPermission(appId)) {
+            return this.cancelJobByDataQuery(data, appId);
+        }
+    }
+
     protected abstract registerProcessors(processors: Array<IProcessor>, appId: string): Promise<void>;
     protected abstract scheduleOnce(job: IOnetimeSchedule, appId: string): Promise<void>;
     protected abstract scheduleRecurring(job: IRecurringSchedule, appId: string): Promise<void>;
     protected abstract cancelJob(jobId: string, appId: string): Promise<void>;
     protected abstract cancelAllJobs(appId: string): Promise<void>;
+    protected abstract cancelJobByDataQuery(data: object, appId: string): Promise<void>;
 
     private hasDefaultPermission(appId: string): boolean {
         if (AppPermissionManager.hasPermission(appId, AppPermissions.scheduler.default)) {

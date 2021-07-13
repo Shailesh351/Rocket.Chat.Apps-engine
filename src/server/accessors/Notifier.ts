@@ -50,11 +50,11 @@ export class Notifier implements INotifier {
         options.scope = options.scope || TypingScope.Room;
 
         if (!options.username) {
-            const appUser = await this.userBridge.getAppUser(this.appId);
+            const appUser = await this.userBridge.doGetAppUser(this.appId);
             options.username = appUser && appUser.name || '';
         }
 
-        this.msgBridge.typing({ ...options, isTyping: false }, this.appId);
+        this.msgBridge.doStopTyping({ ...options, isTyping: false }, this.appId);
 
         return;
     }
