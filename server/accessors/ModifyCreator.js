@@ -78,13 +78,13 @@ class ModifyCreator {
             const result = builder.getMessage();
             delete result.id;
             if (!result.sender || !result.sender.id) {
-                const appUser = yield this.bridges.getUserBridge().getAppUser(this.appId);
+                const appUser = yield this.bridges.getUserBridge().doGetAppUser(this.appId);
                 if (!appUser) {
                     throw new Error('Invalid sender assigned to the message.');
                 }
                 result.sender = appUser;
             }
-            return this.bridges.getMessageBridge().create(result, this.appId);
+            return this.bridges.getMessageBridge().doCreate(result, this.appId);
         });
     }
     _finishLivechatMessage(builder) {
@@ -97,7 +97,7 @@ class ModifyCreator {
             throw new Error('Invalid visitor sending the message');
         }
         result.token = result.visitor ? result.visitor.token : result.token;
-        return this.bridges.getLivechatBridge().createMessage(result, this.appId);
+        return this.bridges.getLivechatBridge().doCreateMessage(result, this.appId);
     }
     _finishRoom(builder) {
         const result = builder.getRoom();
@@ -120,7 +120,7 @@ class ModifyCreator {
                 throw new Error('Invalid displayName assigned to the room.');
             }
         }
-        return this.bridges.getRoomBridge().create(result, builder.getMembersToBeAddedUsernames(), this.appId);
+        return this.bridges.getRoomBridge().doCreate(result, builder.getMembersToBeAddedUsernames(), this.appId);
     }
     _finishDiscussion(builder) {
         const room = builder.getRoom();
@@ -137,7 +137,7 @@ class ModifyCreator {
         if (!room.parentRoom || !room.parentRoom.id) {
             throw new Error('Invalid parentRoom assigned to the discussion.');
         }
-        return this.bridges.getRoomBridge().createDiscussion(room, builder.getParentMessage(), builder.getReply(), builder.getMembersToBeAddedUsernames(), this.appId);
+        return this.bridges.getRoomBridge().doCreateDiscussion(room, builder.getParentMessage(), builder.getReply(), builder.getMembersToBeAddedUsernames(), this.appId);
     }
 }
 exports.ModifyCreator = ModifyCreator;

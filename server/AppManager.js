@@ -17,7 +17,6 @@ const bridges_1 = require("./bridges");
 const compiler_1 = require("./compiler");
 const errors_1 = require("./errors");
 const managers_1 = require("./managers");
-const AppPermissionManager_1 = require("./managers/AppPermissionManager");
 const DisabledApp_1 = require("./misc/DisabledApp");
 const AppPermissions_1 = require("./permissions/AppPermissions");
 const ProxiedApp_1 = require("./ProxiedApp");
@@ -82,22 +81,7 @@ class AppManager {
     }
     /** Gets the instance of the Bridge manager. */
     getBridges() {
-        const handler = {
-            get(target, prop, receiver) {
-                const reflection = Reflect.get(target, prop, receiver);
-                if (typeof prop === 'symbol' || typeof prop === 'number') {
-                    return reflection;
-                }
-                if (typeof target[prop] === 'function' && /^get.+Bridge$/.test(prop)) {
-                    return (...args) => {
-                        const bridge = reflection.apply(target, args);
-                        return AppPermissionManager_1.AppPermissionManager.proxy(bridge);
-                    };
-                }
-                return reflection;
-            },
-        };
-        return new Proxy(this.bridges, handler);
+        return this.bridges;
     }
     /** Gets the instance of the listener manager. */
     getListenerManager() {
@@ -191,7 +175,7 @@ class AppManager {
                 }
                 else if (!AppStatus_1.AppStatusUtils.isError(app.getStatus())) {
                     this.listenerManager.lockEssentialEvents(app);
-                    yield this.schedulerManager.cancelAllJobs(app.getID());
+                    yield this.schedulerManager.cleanUp(app.getID());
                 }
             }
             this.isLoaded = true;
@@ -212,7 +196,7 @@ class AppManager {
                     this.externalComponentManager.unregisterExternalComponents(app.getID());
                     this.apiManager.unregisterApis(app.getID());
                     this.accessorManager.purifyApp(app.getID());
-                    yield this.schedulerManager.cancelAllJobs(app.getID());
+                    yield this.schedulerManager.cleanUp(app.getID());
                 }
                 else if (!AppStatus_1.AppStatusUtils.isDisabled(app.getStatus())) {
                     yield this.disable(app.getID(), isManual ? AppStatus_1.AppStatus.MANUALLY_DISABLED : AppStatus_1.AppStatus.DISABLED);
@@ -319,7 +303,7 @@ class AppManager {
             this.externalComponentManager.unregisterExternalComponents(app.getID());
             this.apiManager.unregisterApis(app.getID());
             this.accessorManager.purifyApp(app.getID());
-            yield this.schedulerManager.cancelAllJobs(app.getID());
+            yield this.schedulerManager.cleanUp(app.getID());
             yield app.setStatus(status, silent);
             const storageItem = yield this.storage.retrieveOne(id);
             app.getStorageItem().marketplaceInfo = storageItem.marketplaceInfo;
@@ -374,7 +358,7 @@ class AppManager {
             this.apps.set(app.getID(), app);
             aff.setApp(app);
             // Let everyone know that the App has been added
-            yield this.bridges.getAppActivationBridge().appAdded(app).catch(() => {
+            yield this.bridges.getAppActivationBridge().doAppAdded(app).catch(() => {
                 // If an error occurs during this, oh well.
             });
             yield this.installApp(created, app, user);
@@ -390,13 +374,30 @@ class AppManager {
             return aff;
         });
     }
+    /**
+     * Uninstalls specified app from the server and remove
+     * all database records regarding it
+     *
+     * @returns the instance of the removed ProxiedApp
+     */
     remove(id, uninstallationParameters) {
         return __awaiter(this, void 0, void 0, function* () {
             const app = this.apps.get(id);
             const { user } = uninstallationParameters;
             yield this.uninstallApp(app, user);
             // Let everyone know that the App has been removed
-            yield this.bridges.getAppActivationBridge().appRemoved(app).catch();
+            yield this.bridges.getAppActivationBridge().doAppRemoved(app).catch();
+            yield this.removeLocal(id);
+            return app;
+        });
+    }
+    /**
+     * Removes the app instance from the local Apps container
+     * and every type of data associated with it
+     */
+    removeLocal(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const app = this.apps.get(id);
             if (AppStatus_1.AppStatusUtils.isEnabled(app.getStatus())) {
                 yield this.disable(id);
             }
@@ -409,11 +410,8 @@ class AppManager {
             yield this.removeAppUser(app);
             yield this.bridges.getPersistenceBridge().purge(app.getID());
             yield this.storage.remove(app.getID());
-            yield this.schedulerManager.cancelAllJobs(app.getID());
-            // Let everyone know that the App has been removed
-            yield this.bridges.getAppActivationBridge().appRemoved(app);
+            yield this.schedulerManager.cleanUp(app.getID());
             this.apps.delete(app.getID());
-            return app;
         });
     }
     update(appPackage, permissionsGranted) {
@@ -456,7 +454,7 @@ class AppManager {
                 return aff;
             }
             // Let everyone know that the App has been updated
-            yield this.bridges.getAppActivationBridge().appUpdated(app).catch();
+            yield this.bridges.getAppActivationBridge().doAppUpdated(app).catch();
             // Store it temporarily so we can access it else where
             this.apps.set(app.getID(), app);
             aff.setApp(app);
@@ -552,7 +550,7 @@ class AppManager {
         });
     }
     /**
-     * Goes through the entire loading up process. WARNING: Do not use. ;)
+     * Goes through the entire loading up process.
      *
      * @param appId the id of the application to load
      */
@@ -637,7 +635,7 @@ class AppManager {
                 this.commandManager.unregisterCommands(storageItem.id);
                 this.externalComponentManager.unregisterExternalComponents(storageItem.id);
                 this.apiManager.unregisterApis(storageItem.id);
-                yield this.schedulerManager.cancelAllJobs(storageItem.id);
+                yield this.schedulerManager.cleanUp(storageItem.id);
                 result = false;
                 yield app.setStatus(status, silenceStatus);
             }
@@ -701,7 +699,7 @@ class AppManager {
                 this.externalComponentManager.unregisterExternalComponents(app.getID());
                 this.apiManager.unregisterApis(app.getID());
                 this.listenerManager.lockEssentialEvents(app);
-                yield this.schedulerManager.cancelAllJobs(app.getID());
+                yield this.schedulerManager.cleanUp(app.getID());
             }
             if (saveToDb) {
                 storageItem.status = app.getStatus();

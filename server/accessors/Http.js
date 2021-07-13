@@ -57,7 +57,7 @@ class Http {
             for (const handler of this.httpExtender.getPreRequestHandlers()) {
                 request = yield handler.executePreHttpRequest(url, request, reader, persis);
             }
-            let response = yield this.bridges.getHttpBridge().call({
+            let response = yield this.bridges.getHttpBridge().doCall({
                 appId: this.appId,
                 method,
                 url,

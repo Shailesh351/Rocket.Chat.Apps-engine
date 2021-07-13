@@ -16,11 +16,11 @@ class MessageRead {
         this.appId = appId;
     }
     getById(id) {
-        return this.messageBridge.getById(id, this.appId);
+        return this.messageBridge.doGetById(id, this.appId);
     }
     getSenderUser(messageId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const msg = yield this.messageBridge.getById(messageId, this.appId);
+            const msg = yield this.messageBridge.doGetById(messageId, this.appId);
             if (!msg) {
                 return undefined;
             }
@@ -29,7 +29,7 @@ class MessageRead {
     }
     getRoom(messageId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const msg = yield this.messageBridge.getById(messageId, this.appId);
+            const msg = yield this.messageBridge.doGetById(messageId, this.appId);
             if (!msg) {
                 return undefined;
             }

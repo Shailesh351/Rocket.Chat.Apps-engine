@@ -17,17 +17,17 @@ class ServerSettingsModify {
     }
     hideGroup(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.bridge.hideGroup(name, this.appId);
+            yield this.bridge.doHideGroup(name, this.appId);
         });
     }
     hideSetting(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.bridge.hideSetting(id, this.appId);
+            yield this.bridge.doHideSetting(id, this.appId);
         });
     }
     modifySetting(setting) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.bridge.updateOne(setting, this.appId);
+            yield this.bridge.doUpdateOne(setting, this.appId);
         });
     }
 }

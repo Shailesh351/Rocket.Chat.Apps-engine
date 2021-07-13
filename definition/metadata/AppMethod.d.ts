@@ -10,6 +10,7 @@ export declare enum AppMethod {
     ONDISABLE = "onDisable",
     ONINSTALL = "onInstall",
     ONUNINSTALL = "onUninstall",
+    ON_PRE_SETTING_UPDATE = "onPreSettingUpdate",
     ONSETTINGUPDATED = "onSettingUpdated",
     SETSTATUS = "setStatus",
     CHECKPREMESSAGESENTPREVENT = "checkPreMessageSentPrevent",

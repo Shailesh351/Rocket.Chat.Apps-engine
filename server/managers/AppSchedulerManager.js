@@ -26,7 +26,7 @@ class AppSchedulerManager {
             if (!this.registeredProcessors.get(appId)) {
                 this.registeredProcessors.set(appId, {});
             }
-            yield this.bridge.registerProcessors(processors.map((processor) => {
+            yield this.bridge.doRegisterProcessors(processors.map((processor) => {
                 const processorId = createProcessorId(processor.id, appId);
                 this.registeredProcessors.get(appId)[processorId] = processor;
                 return {
@@ -73,27 +73,32 @@ class AppSchedulerManager {
     }
     scheduleOnce(job, appId) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.scheduleOnce(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, appId) }), appId);
+            this.bridge.doScheduleOnce(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, appId) }), appId);
         });
     }
     scheduleRecurring(job, appId) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.scheduleRecurring(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, appId) }), appId);
+            this.bridge.doScheduleRecurring(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, appId) }), appId);
         });
     }
     cancelJob(jobId, appId) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.cancelJob(createProcessorId(jobId, appId), appId);
+            this.bridge.doCancelJob(createProcessorId(jobId, appId), appId);
         });
     }
     cancelAllJobs(appId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.bridge.doCancelAllJobs(appId);
+        });
+    }
+    cleanUp(appId) {
         return __awaiter(this, void 0, void 0, function* () {
             this.bridge.cancelAllJobs(appId);
         });
     }
     cancelJobByDataQuery(data, appId) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.cancelJobByDataQuery(data, appId);
+            this.bridge.doCancelJobByDataQuery(data, appId);
         });
     }
 }

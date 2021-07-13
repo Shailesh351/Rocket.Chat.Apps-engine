@@ -97,7 +97,7 @@ class ProxiedApp {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.call(metadata_1.AppMethod.SETSTATUS, status);
             if (!silent) {
-                yield this.manager.getBridges().getAppActivationBridge().appStatusChanged(this, status);
+                yield this.manager.getBridges().getAppActivationBridge().doAppStatusChanged(this, status);
             }
         });
     }

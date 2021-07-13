@@ -17,17 +17,17 @@ class UserUpdater {
     }
     updateStatusText(user, statusText) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.bridges.getUserBridge().update(user, { statusText }, this.appId);
+            return this.bridges.getUserBridge().doUpdate(user, { statusText }, this.appId);
         });
     }
     updateBio(user, bio) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.bridges.getUserBridge().update(user, { bio }, this.appId);
+            return this.bridges.getUserBridge().doUpdate(user, { bio }, this.appId);
         });
     }
     updateCustomFields(user, customFields) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.bridges.getUserBridge().update(user, { customFields }, this.appId);
+            return this.bridges.getUserBridge().doUpdate(user, { customFields }, this.appId);
         });
     }
 }

@@ -31,13 +31,13 @@ class ModifyUpdater {
     }
     message(messageId, updater) {
         return __awaiter(this, void 0, void 0, function* () {
-            const msg = yield this.bridges.getMessageBridge().getById(messageId, this.appId);
+            const msg = yield this.bridges.getMessageBridge().doGetById(messageId, this.appId);
             return new MessageBuilder_1.MessageBuilder(msg);
         });
     }
     room(roomId, updater) {
         return __awaiter(this, void 0, void 0, function* () {
-            const room = yield this.bridges.getRoomBridge().getById(roomId, this.appId);
+            const room = yield this.bridges.getRoomBridge().doGetById(roomId, this.appId);
             return new RoomBuilder_1.RoomBuilder(room);
         });
     }
@@ -59,7 +59,7 @@ class ModifyUpdater {
         if (!result.sender || !result.sender.id) {
             throw new Error('Invalid sender assigned to the message.');
         }
-        return this.bridges.getMessageBridge().update(result, this.appId);
+        return this.bridges.getMessageBridge().doUpdate(result, this.appId);
     }
     _finishRoom(builder) {
         const result = builder.getRoom();
@@ -80,7 +80,7 @@ class ModifyUpdater {
         if (!result.displayName || !result.displayName.trim()) {
             throw new Error('Invalid displayName assigned to the room.');
         }
-        return this.bridges.getRoomBridge().update(result, builder.getMembersToBeAddedUsernames(), this.appId);
+        return this.bridges.getRoomBridge().doUpdate(result, builder.getMembersToBeAddedUsernames(), this.appId);
     }
 }
 exports.ModifyUpdater = ModifyUpdater;

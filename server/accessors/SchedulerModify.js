@@ -20,27 +20,27 @@ class SchedulerModify {
     }
     scheduleOnce(job) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.scheduleOnce(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, this.appId) }), this.appId);
+            this.bridge.doScheduleOnce(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, this.appId) }), this.appId);
         });
     }
     scheduleRecurring(job) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.scheduleRecurring(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, this.appId) }), this.appId);
+            this.bridge.doScheduleRecurring(Object.assign(Object.assign({}, job), { id: createProcessorId(job.id, this.appId) }), this.appId);
         });
     }
     cancelJob(jobId) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.cancelJob(createProcessorId(jobId, this.appId), this.appId);
+            this.bridge.doCancelJob(createProcessorId(jobId, this.appId), this.appId);
         });
     }
     cancelAllJobs() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.cancelAllJobs(this.appId);
+            this.bridge.doCancelAllJobs(this.appId);
         });
     }
     cancelJobByDataQuery(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.bridge.cancelJobByDataQuery(data, this.appId);
+            this.bridge.doCancelJobByDataQuery(data, this.appId);
         });
     }
 }

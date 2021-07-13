@@ -36,18 +36,20 @@ class AppSettingsManager {
             if (!rl) {
                 throw new Error('No App found by the provided id.');
             }
-            if (!rl.getStorageItem().settings[setting.id]) {
+            const oldSetting = rl.getStorageItem().settings[setting.id];
+            if (!oldSetting) {
                 throw new Error('No setting found for the App by the provided id.');
             }
-            setting.updatedAt = new Date();
-            rl.getStorageItem().settings[setting.id] = setting;
-            const item = yield this.manager.getStorage().update(rl.getStorageItem());
-            rl.setStorageItem(item);
-            this.manager.getBridges().getAppDetailChangesBridge().onAppSettingsChange(appId, setting);
             const configModify = this.manager.getAccessorManager().getConfigurationModify(rl.getID());
             const reader = this.manager.getAccessorManager().getReader(rl.getID());
             const http = this.manager.getAccessorManager().getHttp(rl.getID());
-            rl.call(metadata_1.AppMethod.ONSETTINGUPDATED, setting, configModify, reader, http);
+            const decoratedSetting = (yield rl.call(metadata_1.AppMethod.ON_PRE_SETTING_UPDATE, { oldSetting, newSetting: setting }, configModify, reader, http)) || setting;
+            decoratedSetting.updatedAt = new Date();
+            rl.getStorageItem().settings[decoratedSetting.id] = decoratedSetting;
+            const item = yield this.manager.getStorage().update(rl.getStorageItem());
+            rl.setStorageItem(item);
+            this.manager.getBridges().getAppDetailChangesBridge().doOnAppSettingsChange(appId, decoratedSetting);
+            yield rl.call(metadata_1.AppMethod.ONSETTINGUPDATED, decoratedSetting, configModify, reader, http);
         });
     }
 }

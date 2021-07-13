@@ -12,5 +12,6 @@ export declare class AppSchedulerManager {
     scheduleRecurring(job: IRecurringSchedule, appId: string): Promise<void>;
     cancelJob(jobId: string, appId: string): Promise<void>;
     cancelAllJobs(appId: string): Promise<void>;
+    cleanUp(appId: string): Promise<void>;
     cancelJobByDataQuery(data: object, appId: string): Promise<void>;
 }

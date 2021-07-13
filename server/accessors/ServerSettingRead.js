@@ -16,11 +16,11 @@ class ServerSettingRead {
         this.appId = appId;
     }
     getOneById(id) {
-        return this.settingBridge.getOneById(id, this.appId);
+        return this.settingBridge.doGetOneById(id, this.appId);
     }
     getValueById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const set = yield this.settingBridge.getOneById(id, this.appId);
+            const set = yield this.settingBridge.doGetOneById(id, this.appId);
             if (typeof set === 'undefined') {
                 throw new Error(`No Server Setting found, or it is unaccessible, by the id of "${id}".`);
             }
@@ -35,7 +35,7 @@ class ServerSettingRead {
         // return this.settingBridge.getAll(this.appId);
     }
     isReadableById(id) {
-        return this.settingBridge.isReadableById(id, this.appId);
+        return this.settingBridge.doIsReadableById(id, this.appId);
     }
 }
 exports.ServerSettingRead = ServerSettingRead;

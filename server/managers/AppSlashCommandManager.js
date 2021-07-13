@@ -87,7 +87,7 @@ class AppSlashCommandManager {
             throw new errors_1.CommandHasAlreadyBeenTouchedError(command.command);
         }
         // Verify the command doesn't exist already
-        if (this.bridge.doesCommandExist(command.command, appId) || this.isAlreadyDefined(command.command)) {
+        if (this.bridge.doDoesCommandExist(command.command, appId) || this.isAlreadyDefined(command.command)) {
             throw new errors_1.CommandAlreadyExistsError(command.command);
         }
         const app = this.manager.getOneById(appId);
@@ -123,11 +123,11 @@ class AppSlashCommandManager {
         }
         const hasNotProvidedIt = !this.providedCommands.has(appId) || !this.providedCommands.get(appId).has(command.command);
         // They haven't provided (added) it and the bridged system doesn't have it, error out
-        if (hasNotProvidedIt && !this.bridge.doesCommandExist(command.command, appId)) {
+        if (hasNotProvidedIt && !this.bridge.doDoesCommandExist(command.command, appId)) {
             throw new Error('You must first register a command before you can modify it.');
         }
         if (hasNotProvidedIt) {
-            this.bridge.modifyCommand(command, appId);
+            this.bridge.doModifyCommand(command, appId);
             const regInfo = new AppSlashCommand_1.AppSlashCommand(app, command);
             regInfo.isDisabled = false;
             regInfo.isEnabled = true;
@@ -165,10 +165,10 @@ class AppSlashCommandManager {
             }
             return;
         }
-        if (!this.bridge.doesCommandExist(cmd, appId)) {
+        if (!this.bridge.doDoesCommandExist(cmd, appId)) {
             throw new Error(`The command "${cmd}" does not exist to enable.`);
         }
-        this.bridge.enableCommand(cmd, appId);
+        this.bridge.doEnableCommand(cmd, appId);
         this.setAsTouched(appId, cmd);
     }
     /**
@@ -198,10 +198,10 @@ class AppSlashCommandManager {
             }
             return;
         }
-        if (!this.bridge.doesCommandExist(cmd, appId)) {
+        if (!this.bridge.doDoesCommandExist(cmd, appId)) {
             throw new Error(`The command "${cmd}" does not exist to disable.`);
         }
-        this.bridge.disableCommand(cmd, appId);
+        this.bridge.doDisableCommand(cmd, appId);
         this.setAsTouched(appId, cmd);
     }
     /**
@@ -230,7 +230,7 @@ class AppSlashCommandManager {
     unregisterCommands(appId) {
         if (this.providedCommands.has(appId)) {
             this.providedCommands.get(appId).forEach((r) => {
-                this.bridge.unregisterCommand(r.slashCommand.command, appId);
+                this.bridge.doUnregisterCommand(r.slashCommand.command, appId);
                 this.touchedCommandsToApps.delete(r.slashCommand.command);
                 const ind = this.appsTouchedCommands.get(appId).indexOf(r.slashCommand.command);
                 this.appsTouchedCommands.get(appId).splice(ind, 1);
@@ -244,7 +244,8 @@ class AppSlashCommandManager {
             // We call restore to enable the commands provided by the bridged system
             // or unmodify the commands modified by the App
             this.appsTouchedCommands.get(appId).forEach((cmd) => {
-                this.bridge.restoreCommand(cmd, appId);
+                // @NOTE this "restore" method isn't present in the bridge
+                // this.bridge.doRestoreCommand(cmd, appId);
                 this.modifiedCommands.get(cmd).isRegistered = false;
                 this.modifiedCommands.delete(cmd);
                 this.touchedCommandsToApps.delete(cmd);
@@ -375,7 +376,7 @@ class AppSlashCommandManager {
      * @param info the command's registration information
      */
     registerCommand(appId, info) {
-        this.bridge.registerCommand(info.slashCommand, appId);
+        this.bridge.doRegisterCommand(info.slashCommand, appId);
         info.hasBeenRegistered();
     }
 }

@@ -20,7 +20,7 @@ class ModifyExtender {
     }
     extendMessage(messageId, updater) {
         return __awaiter(this, void 0, void 0, function* () {
-            const msg = yield this.bridges.getMessageBridge().getById(messageId, this.appId);
+            const msg = yield this.bridges.getMessageBridge().doGetById(messageId, this.appId);
             msg.editor = updater;
             msg.editedAt = new Date();
             return new MessageExtender_1.MessageExtender(msg);
@@ -28,7 +28,7 @@ class ModifyExtender {
     }
     extendRoom(roomId, updater) {
         return __awaiter(this, void 0, void 0, function* () {
-            const room = yield this.bridges.getRoomBridge().getById(roomId, this.appId);
+            const room = yield this.bridges.getRoomBridge().doGetById(roomId, this.appId);
             room.updatedAt = new Date();
             return new RoomExtender_1.RoomExtender(room);
         });
@@ -36,9 +36,9 @@ class ModifyExtender {
     finish(extender) {
         switch (extender.kind) {
             case metadata_1.RocketChatAssociationModel.MESSAGE:
-                return this.bridges.getMessageBridge().update(extender.getMessage(), this.appId);
+                return this.bridges.getMessageBridge().doUpdate(extender.getMessage(), this.appId);
             case metadata_1.RocketChatAssociationModel.ROOM:
-                return this.bridges.getRoomBridge().update(extender.getRoom(), extender.getUsernamesOfMembersBeingAdded(), this.appId);
+                return this.bridges.getRoomBridge().doUpdate(extender.getRoom(), extender.getUsernamesOfMembersBeingAdded(), this.appId);
             default:
                 throw new Error('Invalid extender passed to the ModifyExtender.finish function.');
         }

@@ -7,13 +7,13 @@ class EnvironmentalVariableRead {
         this.appId = appId;
     }
     getValueByName(envVarName) {
-        return this.bridge.getValueByName(envVarName, this.appId);
+        return this.bridge.doGetValueByName(envVarName, this.appId);
     }
     isReadable(envVarName) {
-        return this.bridge.isReadable(envVarName, this.appId);
+        return this.bridge.doIsReadable(envVarName, this.appId);
     }
     isSet(envVarName) {
-        return this.bridge.isSet(envVarName, this.appId);
+        return this.bridge.doIsSet(envVarName, this.appId);
     }
 }
 exports.EnvironmentalVariableRead = EnvironmentalVariableRead;

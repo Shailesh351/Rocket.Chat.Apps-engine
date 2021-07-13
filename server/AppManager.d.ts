@@ -77,7 +77,18 @@ export declare class AppManager {
     enable(id: string): Promise<boolean>;
     disable(id: string, status?: AppStatus, silent?: boolean): Promise<boolean>;
     add(appPackage: Buffer, installationParameters: IAppInstallParameters): Promise<AppFabricationFulfillment>;
+    /**
+     * Uninstalls specified app from the server and remove
+     * all database records regarding it
+     *
+     * @returns the instance of the removed ProxiedApp
+     */
     remove(id: string, uninstallationParameters: IAppUninstallParameters): Promise<ProxiedApp>;
+    /**
+     * Removes the app instance from the local Apps container
+     * and every type of data associated with it
+     */
+    removeLocal(id: string): Promise<void>;
     update(appPackage: Buffer, permissionsGranted: Array<IPermission>): Promise<AppFabricationFulfillment>;
     getLanguageContent(): {
         [key: string]: object;
@@ -87,7 +98,7 @@ export declare class AppManager {
         latest: IMarketplaceInfo;
     }>): Promise<void>;
     /**
-     * Goes through the entire loading up process. WARNING: Do not use. ;)
+     * Goes through the entire loading up process.
      *
      * @param appId the id of the application to load
      */

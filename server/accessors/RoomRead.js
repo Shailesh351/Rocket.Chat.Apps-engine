@@ -7,25 +7,25 @@ class RoomRead {
         this.appId = appId;
     }
     getById(id) {
-        return this.roomBridge.getById(id, this.appId);
+        return this.roomBridge.doGetById(id, this.appId);
     }
     getCreatorUserById(id) {
-        return this.roomBridge.getCreatorById(id, this.appId);
+        return this.roomBridge.doGetCreatorById(id, this.appId);
     }
     getByName(name) {
-        return this.roomBridge.getByName(name, this.appId);
+        return this.roomBridge.doGetByName(name, this.appId);
     }
     getCreatorUserByName(name) {
-        return this.roomBridge.getCreatorByName(name, this.appId);
+        return this.roomBridge.doGetCreatorByName(name, this.appId);
     }
     getMessages(roomId) {
         throw new Error('Method not implemented.');
     }
     getMembers(roomId) {
-        return this.roomBridge.getMembers(roomId, this.appId);
+        return this.roomBridge.doGetMembers(roomId, this.appId);
     }
     getDirectByUsernames(usernames) {
-        return this.roomBridge.getDirectByUsernames(usernames, this.appId);
+        return this.roomBridge.doGetDirectByUsernames(usernames, this.appId);
     }
 }
 exports.RoomRead = RoomRead;

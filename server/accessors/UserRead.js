@@ -7,13 +7,13 @@ class UserRead {
         this.appId = appId;
     }
     getById(id) {
-        return this.userBridge.getById(id, this.appId);
+        return this.userBridge.doGetById(id, this.appId);
     }
     getByUsername(username) {
-        return this.userBridge.getByUsername(username, this.appId);
+        return this.userBridge.doGetByUsername(username, this.appId);
     }
     getAppUser(appId = this.appId) {
-        return this.userBridge.getAppUser(appId);
+        return this.userBridge.doGetAppUser(appId);
     }
 }
 exports.UserRead = UserRead;

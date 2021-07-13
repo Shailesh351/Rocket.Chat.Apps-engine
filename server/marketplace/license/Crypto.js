@@ -17,7 +17,7 @@ class Crypto {
     }
     decryptLicense(content) {
         return __awaiter(this, void 0, void 0, function* () {
-            const publicKeySetting = yield this.internalBridge.getWorkspacePublicKey();
+            const publicKeySetting = yield this.internalBridge.doGetWorkspacePublicKey();
             if (!publicKeySetting || !publicKeySetting.value) {
                 throw new Error('Public key not available, cannot decrypt'); // TODO: add custom error?
             }

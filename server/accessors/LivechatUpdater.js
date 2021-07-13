@@ -7,13 +7,13 @@ class LivechatUpdater {
         this.appId = appId;
     }
     transferVisitor(visitor, transferData) {
-        return this.bridges.getLivechatBridge().transferVisitor(visitor, transferData, this.appId);
+        return this.bridges.getLivechatBridge().doTransferVisitor(visitor, transferData, this.appId);
     }
     closeRoom(room, comment) {
-        return this.bridges.getLivechatBridge().closeRoom(room, comment, this.appId);
+        return this.bridges.getLivechatBridge().doCloseRoom(room, comment, this.appId);
     }
     setCustomFields(token, key, value, overwrite) {
-        return this.bridges.getLivechatBridge().setCustomFields({ token, key, value, overwrite }, this.appId)
+        return this.bridges.getLivechatBridge().doSetCustomFields({ token, key, value, overwrite }, this.appId)
             .then((result) => result > 0);
     }
 }

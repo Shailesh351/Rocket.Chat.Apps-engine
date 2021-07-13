@@ -1,10 +1,10 @@
 import { IPersistence } from '../../definition/accessors';
 import { RocketChatAssociationRecord } from '../../definition/metadata';
-import { IPersistenceBridge } from '../bridges/IPersistenceBridge';
+import { PersistenceBridge } from '../bridges/PersistenceBridge';
 export declare class Persistence implements IPersistence {
     private persistBridge;
     private appId;
-    constructor(persistBridge: IPersistenceBridge, appId: string);
+    constructor(persistBridge: PersistenceBridge, appId: string);
     create(data: object): Promise<string>;
     createWithAssociation(data: object, association: RocketChatAssociationRecord): Promise<string>;
     createWithAssociations(data: object, associations: Array<RocketChatAssociationRecord>): Promise<string>;

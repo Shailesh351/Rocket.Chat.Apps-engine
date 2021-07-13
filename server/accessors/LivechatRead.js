@@ -12,16 +12,16 @@ class LivechatRead {
      */
     isOnline(departmentId) {
         console.warn('The `LivechatRead.isOnline` method is deprecated and won\'t behave as intended. Please use `LivechatRead.isOnlineAsync` instead');
-        return this.livechatBridge.isOnline(departmentId, this.appId);
+        return this.livechatBridge.doIsOnline(departmentId, this.appId);
     }
     isOnlineAsync(departmentId) {
-        return this.livechatBridge.isOnlineAsync(departmentId, this.appId);
+        return this.livechatBridge.doIsOnlineAsync(departmentId, this.appId);
     }
     getDepartmentsEnabledWithAgents() {
-        return this.livechatBridge.findDepartmentsEnabledWithAgents(this.appId);
+        return this.livechatBridge.doFindDepartmentsEnabledWithAgents(this.appId);
     }
     getLivechatRooms(visitor, departmentId) {
-        return this.livechatBridge.findRooms(visitor, departmentId, this.appId);
+        return this.livechatBridge.doFindRooms(visitor, departmentId, this.appId);
     }
     /**
      * @deprecated This method does not adhere to the conversion practices applied
@@ -29,22 +29,22 @@ class LivechatRead {
      * Prefer the alternative methods to fetch visitors.
      */
     getLivechatVisitors(query) {
-        return this.livechatBridge.findVisitors(query, this.appId);
+        return this.livechatBridge.doFindVisitors(query, this.appId);
     }
     getLivechatVisitorById(id) {
-        return this.livechatBridge.findVisitorById(id, this.appId);
+        return this.livechatBridge.doFindVisitorById(id, this.appId);
     }
     getLivechatVisitorByEmail(email) {
-        return this.livechatBridge.findVisitorByEmail(email, this.appId);
+        return this.livechatBridge.doFindVisitorByEmail(email, this.appId);
     }
     getLivechatVisitorByToken(token) {
-        return this.livechatBridge.findVisitorByToken(token, this.appId);
+        return this.livechatBridge.doFindVisitorByToken(token, this.appId);
     }
     getLivechatVisitorByPhoneNumber(phoneNumber) {
-        return this.livechatBridge.findVisitorByPhoneNumber(phoneNumber, this.appId);
+        return this.livechatBridge.doFindVisitorByPhoneNumber(phoneNumber, this.appId);
     }
     getLivechatDepartmentByIdOrName(value) {
-        return this.livechatBridge.findDepartmentByIdOrName(value, this.appId);
+        return this.livechatBridge.doFindDepartmentByIdOrName(value, this.appId);
     }
 }
 exports.LivechatRead = LivechatRead;

@@ -70,7 +70,7 @@ class AppApiManager {
         if (!this.providedApis.has(appId)) {
             return;
         }
-        this.bridge.unregisterApis(appId);
+        this.bridge.doUnregisterApis(appId);
         for (const [, apiapp] of this.providedApis.get(appId).entries()) {
             this.registerApi(appId, apiapp);
         }
@@ -82,7 +82,7 @@ class AppApiManager {
      */
     unregisterApis(appId) {
         if (this.providedApis.has(appId)) {
-            this.bridge.unregisterApis(appId);
+            this.bridge.doUnregisterApis(appId);
             this.providedApis.delete(appId);
         }
     }
@@ -141,7 +141,7 @@ class AppApiManager {
      * @param info the api's registration information
      */
     registerApi(appId, api) {
-        this.bridge.registerApi(api, appId);
+        this.bridge.doRegisterApi(api, appId);
     }
 }
 exports.AppApiManager = AppApiManager;

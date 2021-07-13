@@ -7,13 +7,13 @@ class PersistenceRead {
         this.appId = appId;
     }
     read(id) {
-        return this.persistBridge.readById(id, this.appId);
+        return this.persistBridge.doReadById(id, this.appId);
     }
     readByAssociation(association) {
-        return this.persistBridge.readByAssociations(new Array(association), this.appId);
+        return this.persistBridge.doReadByAssociations(new Array(association), this.appId);
     }
     readByAssociations(associations) {
-        return this.persistBridge.readByAssociations(associations, this.appId);
+        return this.persistBridge.doReadByAssociations(associations, this.appId);
     }
 }
 exports.PersistenceRead = PersistenceRead;

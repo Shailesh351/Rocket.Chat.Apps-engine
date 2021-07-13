@@ -17,7 +17,7 @@ class CloudWorkspaceRead {
     }
     getWorkspaceToken(scope) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.cloudBridge.getWorkspaceToken(scope, this.appId);
+            return this.cloudBridge.doGetWorkspaceToken(scope, this.appId);
         });
     }
 }

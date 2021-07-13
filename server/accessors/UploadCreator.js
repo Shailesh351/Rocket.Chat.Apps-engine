@@ -18,7 +18,7 @@ class UploadCreator {
     uploadBuffer(buffer, descriptor) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!descriptor.hasOwnProperty('user') && !descriptor.visitorToken) {
-                descriptor.user = yield this.bridges.getUserBridge().getAppUser(this.appId);
+                descriptor.user = yield this.bridges.getUserBridge().doGetAppUser(this.appId);
             }
             const details = {
                 name: descriptor.filename,
@@ -27,7 +27,7 @@ class UploadCreator {
                 userId: descriptor.user && descriptor.user.id,
                 visitorToken: descriptor.visitorToken,
             };
-            return this.bridges.getUploadBridge().createUpload(details, buffer, this.appId);
+            return this.bridges.getUploadBridge().doCreateUpload(details, buffer, this.appId);
         });
     }
 }

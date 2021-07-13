@@ -16,15 +16,15 @@ class UploadRead {
         this.appId = appId;
     }
     getById(id) {
-        return this.uploadBridge.getById(id, this.appId);
+        return this.uploadBridge.doGetById(id, this.appId);
     }
     getBuffer(upload) {
-        return this.uploadBridge.getBuffer(upload, this.appId);
+        return this.uploadBridge.doGetBuffer(upload, this.appId);
     }
     getBufferById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const upload = yield this.uploadBridge.getById(id, this.appId);
-            return this.uploadBridge.getBuffer(upload, this.appId);
+            const upload = yield this.uploadBridge.doGetById(id, this.appId);
+            return this.uploadBridge.doGetBuffer(upload, this.appId);
         });
     }
 }

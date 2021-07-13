@@ -184,6 +184,20 @@ class App {
         });
     }
     /**
+     * Method which is called before a setting which belongs to this App is going to be updated
+     * by an external system and not this App itself. The setting passed is the newly updated one.
+     *
+     * @param setting the setting which is going to be updated
+     * @param configurationModify the accessor to modifiy the system
+     * @param reader the reader accessor
+     * @param http an accessor to the outside world
+     */
+    onPreSettingUpdate(context, configurationModify, read, http) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return context.newSetting;
+        });
+    }
+    /**
      * Method will be called during initialization. It allows for adding custom configuration options and defaults
      * @param configuration
      */

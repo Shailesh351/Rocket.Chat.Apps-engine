@@ -17,7 +17,7 @@ class ModifyDeleter {
     }
     deleteRoom(roomId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.bridges.getRoomBridge().delete(roomId, this.appId);
+            return this.bridges.getRoomBridge().doDelete(roomId, this.appId);
         });
     }
 }

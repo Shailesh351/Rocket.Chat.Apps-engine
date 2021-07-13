@@ -21,40 +21,40 @@ class Notifier {
     notifyUser(user, message) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!message.sender || !message.sender.id) {
-                const appUser = yield this.userBridge.getAppUser(this.appId);
+                const appUser = yield this.userBridge.doGetAppUser(this.appId);
                 message.sender = appUser;
             }
-            yield this.msgBridge.notifyUser(user, message, this.appId);
+            yield this.msgBridge.doNotifyUser(user, message, this.appId);
         });
     }
     notifyRoom(room, message) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!message.sender || !message.sender.id) {
-                const appUser = yield this.userBridge.getAppUser(this.appId);
+                const appUser = yield this.userBridge.doGetAppUser(this.appId);
                 message.sender = appUser;
             }
-            yield this.msgBridge.notifyRoom(room, message, this.appId);
+            yield this.msgBridge.doNotifyRoom(room, message, this.appId);
         });
     }
     typing(options) {
         return __awaiter(this, void 0, void 0, function* () {
             options.scope = options.scope || INotifier_1.TypingScope.Room;
             if (!options.username) {
-                const appUser = yield this.userBridge.getAppUser(this.appId);
+                const appUser = yield this.userBridge.doGetAppUser(this.appId);
                 options.username = appUser && appUser.name || '';
             }
-            this.msgBridge.typing(Object.assign(Object.assign({}, options), { isTyping: true }), this.appId);
-            return () => this.msgBridge.typing(Object.assign(Object.assign({}, options), { isTyping: false }), this.appId);
+            this.msgBridge.doTyping(Object.assign(Object.assign({}, options), { isTyping: true }), this.appId);
+            return () => this.msgBridge.doTyping(Object.assign(Object.assign({}, options), { isTyping: false }), this.appId);
         });
     }
     stopTyping(options) {
         return __awaiter(this, void 0, void 0, function* () {
             options.scope = options.scope || INotifier_1.TypingScope.Room;
             if (!options.username) {
-                const appUser = yield this.userBridge.getAppUser(this.appId);
+                const appUser = yield this.userBridge.doGetAppUser(this.appId);
                 options.username = appUser && appUser.name || '';
             }
-            this.msgBridge.typing(Object.assign(Object.assign({}, options), { isTyping: false }), this.appId);
+            this.msgBridge.doStopTyping(Object.assign(Object.assign({}, options), { isTyping: false }), this.appId);
             return;
         });
     }
