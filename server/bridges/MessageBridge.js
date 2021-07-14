@@ -50,13 +50,6 @@ class MessageBridge extends BaseBridge_1.BaseBridge {
             }
         });
     }
-    doStopTyping(options, appId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (this.hasWritePermission(appId)) {
-                return this.stopTyping(options, appId);
-            }
-        });
-    }
     doGetById(messageId, appId) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.hasReadPermission(appId)) {
