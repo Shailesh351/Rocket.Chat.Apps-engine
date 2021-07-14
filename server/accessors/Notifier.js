@@ -54,8 +54,7 @@ class Notifier {
                 const appUser = yield this.userBridge.doGetAppUser(this.appId);
                 options.username = appUser && appUser.name || '';
             }
-            this.msgBridge.doStopTyping(Object.assign(Object.assign({}, options), { isTyping: false }), this.appId);
-            return;
+            return this.msgBridge.doStopTyping(Object.assign(Object.assign({}, options), { isTyping: false }), this.appId);
         });
     }
     getMessageBuilder() {
