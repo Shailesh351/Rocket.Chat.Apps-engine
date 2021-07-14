@@ -42,12 +42,6 @@ export abstract class MessageBridge extends BaseBridge {
         }
     }
 
-    public async doStopTyping(options: ITypingDescriptor, appId: string): Promise<void> {
-        if (this.hasWritePermission(appId)) {
-            return this.stopTyping(options, appId);
-        }
-    }
-
     public async doGetById(messageId: string, appId: string): Promise<IMessage> {
         if (this.hasReadPermission(appId)) {
             return this.getById(messageId, appId);
@@ -59,7 +53,6 @@ export abstract class MessageBridge extends BaseBridge {
     protected abstract notifyUser(user: IUser, message: IMessage, appId: string): Promise<void>;
     protected abstract notifyRoom(room: IRoom, message: IMessage, appId: string): Promise<void>;
     protected abstract typing(options: ITypingDescriptor, appId: string): Promise<void>;
-    protected abstract stopTyping(options: ITypingDescriptor, appId: string): Promise<void>;
     protected abstract getById(messageId: string, appId: string): Promise<IMessage>;
 
     private hasReadPermission(appId: string): boolean {
