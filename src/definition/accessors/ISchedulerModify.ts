@@ -30,9 +30,9 @@ export interface ISchedulerModify {
      */
     cancelAllJobs(): Promise<void>;
     /**
-     * Cancels a running job given its data query
+     * Cancels running jobs given its data query
      *
-     * @param {string} jobId
+     * @param {object} data
      */
     cancelJobByDataQuery(data: object): Promise<void>;
 }
